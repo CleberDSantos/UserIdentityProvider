@@ -155,17 +155,17 @@ namespace UserIdentity.Api
             //app.UseAuthentication();
             app.UseStatusCodePagesWithRedirects("/error/index?errorCode={0}");
 
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute("administrationAreaRoute", "{area:exists}/{controller=home}/{action=index}/{id?}");
-                routes.MapRoute("defaultRoute", "{controller=home}/{action=index}/{id?}");
-            });
-
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
             });
+
+            app.UseMvc(routes => { routes.MapRoute("default", "api/{controller}/{action}"); });
+
+          
+
+       
         }
     }
 }
