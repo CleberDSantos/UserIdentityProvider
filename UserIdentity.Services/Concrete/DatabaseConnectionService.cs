@@ -9,7 +9,6 @@ namespace UserIdentity.Services.Concrete
     {
         private SqlConnection _sqlConnection;
         private readonly string _connectionString;
-        private bool disposed = false;
 
         public DatabaseConnectionService(string connectionString)
         {
