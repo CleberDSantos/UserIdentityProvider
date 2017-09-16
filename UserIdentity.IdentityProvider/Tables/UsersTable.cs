@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace UserIdentity.IdentityProvider.Tables
 {
-    public class UsersTable
+    public class UsersTable : IDisposable
     {
         private SqlConnection _sqlConnection;
 

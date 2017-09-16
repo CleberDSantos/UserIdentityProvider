@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace UserIdentity.IdentityProvider.Tables
 {
-    public class RolesTable
+    public class RolesTable : IDisposable
     {
         private SqlConnection _sqlConnection;
 

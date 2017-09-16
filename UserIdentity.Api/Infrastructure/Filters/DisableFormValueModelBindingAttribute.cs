@@ -28,6 +28,10 @@ namespace UserIdentity.WebUI.Infrastructure.Filters
             }
         }
 
-        public void OnResourceExecuted(ResourceExecutedContext context) { }
+        public void OnResourceExecuted(ResourceExecutedContext context) {
+
+            throw new NotImplementedException();
+
+        }
     }
 }
