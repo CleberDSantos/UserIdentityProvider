@@ -200,7 +200,7 @@ namespace UserIdentity.Api.Controllers
                 return BadRequest();
 
             var user = await _userManager.FindByIdAsync(userId.ToString());
-            if (user == null)
+            if (string.IsNullOrEmpty(user.ToString()))
                 return BadRequest();
 
             var result = await _userManager.ConfirmEmailAsync(user, code);
