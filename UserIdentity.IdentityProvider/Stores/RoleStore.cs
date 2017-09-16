@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace UserIdentity.IdentityProvider.Stores
 {
-    public class RoleStore : IQueryableRoleStore<ApplicationRole>
+    public sealed class RoleStore : IQueryableRoleStore<ApplicationRole>
     {
         private readonly RolesTable _rolesTable;
 
@@ -155,16 +155,11 @@ namespace UserIdentity.IdentityProvider.Stores
 
         }
 
-
         public void Dispose()
         {
             Dispose(true);
             GC.SuppressFinalize(this);
         }
-
-        ~RoleStore() {
-
-            Dispose(false);
-        }
+  
     }
 }

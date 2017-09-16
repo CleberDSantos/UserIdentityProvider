@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace UserIdentity.IdentityProvider.Tables
 {
-    public class RolesTable : IDisposable
+    public sealed class RolesTable : IDisposable
     {
         private SqlConnection _sqlConnection;
 
@@ -112,7 +112,7 @@ namespace UserIdentity.IdentityProvider.Tables
             GC.SuppressFinalize(this);
         }
 
-        private void Dispose(bool disposing)
+        protected void Dispose(bool disposing)
         {
             if (!disposing)
                 return;

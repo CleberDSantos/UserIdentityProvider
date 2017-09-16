@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace UserIdentity.IdentityProvider.Tables
 {
-    public class UsersTable : IDisposable
+    public sealed class UsersTable : IDisposable
     {
         private SqlConnection _sqlConnection;
 
@@ -160,7 +160,7 @@ namespace UserIdentity.IdentityProvider.Tables
             return _sqlConnection.QueryAsync<ApplicationUser>(command);
         }
 
-        private void Dispose(bool disposing)
+        protected void Dispose(bool disposing)
         {
             if (!disposing)
                 return;
