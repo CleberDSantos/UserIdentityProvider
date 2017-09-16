@@ -1,4 +1,14 @@
-﻿using UserIdentity.DataAccess.Abstract;
+﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Microsoft.Net.Http.Headers;
+using Newtonsoft.Json.Serialization;
+using Swashbuckle.AspNetCore.Swagger;
+using System;
+using UserIdentity.DataAccess.Abstract;
 using UserIdentity.DataAccess.Concrete;
 using UserIdentity.IdentityProvider.Entities;
 using UserIdentity.IdentityProvider.Stores;
@@ -8,25 +18,26 @@ using UserIdentity.Services.Models;
 using UserIdentity.WebUI.Infrastructure.Identity;
 using UserIdentity.WebUI.Infrastructure.Services;
 using UserIdentity.WebUI.Infrastructure.Settings;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Net.Http.Headers;
-using Newtonsoft.Json.Serialization;
-using System;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
-using Swashbuckle.AspNetCore.Swagger;
 
 namespace UserIdentity.Api
 {
+    /// <summary>
+    /// Startup class
+    /// </summary>
     public class Startup
     {
+        /// <summary>
+        /// Configuration properties
+        /// </summary>
         public IConfigurationRoot Configuration { get; }
 
+        private const string URI_ERROR = "/error/index/500";
+        private const string SWAGGER_PATH = "/swagger/v1/swagger.json";
+
+        /// <summary>
+        /// Start application method
+        /// </summary>
+        /// <param name="hostingEnvironment"></param>
         public Startup(IHostingEnvironment hostingEnvironment)
         {
             var builder = new ConfigurationBuilder().SetBasePath(hostingEnvironment.ContentRootPath)
@@ -37,7 +48,10 @@ namespace UserIdentity.Api
             Configuration = builder.Build();
         }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
+        /// <summary>
+        /// This method gets called by the runtime. Use this method to add services to the container.
+        /// </summary>
+        /// <param name="services"></param>
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddIdentity<ApplicationUser, ApplicationRole>()
@@ -102,31 +116,20 @@ namespace UserIdentity.Api
                 LocalDomain = Configuration["SmtpSettings:LocalDomain"],
                 Password = Configuration["SmtpSettings:Password"],
                 UserName = Configuration["SmtpSettings:UserName"],
-                
             }));
-
-            //services.AddAuthentication().AddJwtBearer(cfg =>
-            //{
-            //    cfg.RequireHttpsMetadata = false;
-            //    cfg.SaveToken = true;
-
-            //    cfg.TokenValidationParameters = new TokenValidationParameters()
-            //    {
-            //        ValidIssuer = Configuration["Tokens:Issuer"],
-            //        ValidAudience = Configuration["Tokens:Issuer"],
-            //        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Tokens:Key"]))
-            //    };
-
-            //});
 
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Info { Title = "My User Idenity API", Version = "v1" });
             });
-           
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        /// <summary>
+        /// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        /// </summary>
+        /// <param name="app"></param>
+        /// <param name="hostingEnvironment"></param>
+        /// <param name="loggerFactory"></param>
         public void Configure(IApplicationBuilder app, IHostingEnvironment hostingEnvironment, ILoggerFactory loggerFactory)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
@@ -139,33 +142,27 @@ namespace UserIdentity.Api
             }
             else
             {
-                app.UseExceptionHandler("/error/index/500");
+                app.UseExceptionHandler(URI_ERROR);
             }
 
             app.UseStaticFiles(new StaticFileOptions
             {
                 OnPrepareResponse = staticFileResponseContext =>
                 {
-                    // Configure caching for static files. Files will be cached for 365 days and duration must be provided in seconds.
                     const int maxAge = 365 * 24 * 3600;
                     staticFileResponseContext.Context.Response.Headers[HeaderNames.CacheControl] = $"public,max-age={maxAge}";
                 }
             });
 
-            //app.UseAuthentication();
             app.UseStatusCodePagesWithRedirects("/error/index?errorCode={0}");
 
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+                c.SwaggerEndpoint(SWAGGER_PATH, "My API V1");
             });
 
             app.UseMvc(routes => { routes.MapRoute("default", "api/{controller}/{action}"); });
-
-          
-
-       
         }
     }
 }

@@ -42,7 +42,7 @@ namespace UserIdentity.Api.Controllers
             _signInManager = signInManager;
             _emailSender = emailSender;
             _config = configuration;
-        }
+        }//NOSONAR
 
         /// <summary>
         /// Efetuar o logout do sistema
@@ -68,18 +68,20 @@ namespace UserIdentity.Api.Controllers
         public async Task<IActionResult> Login([FromBody] LoginViewModel model, string returnUrl = null)
         {
             if (!ModelState.IsValid)
-            {
-                return BadRequest();
-            }
+                return BadRequest("Model state is invalid!");
 
             ApplicationUser user = await _userManager.FindByNameAsync(model.UserName);
 
-            if (user != null)
-            {
-                var result = await _signInManager.PasswordSignInAsync(user, model.Password, true, true);
-            }
+            if (user == null)
+                BadRequest("user is null");
+
+            var result = await _signInManager.PasswordSignInAsync(user, model.Password, true, true);
+
+            if (!result.Succeeded)
+                BadRequest("result isn't success");
 
             return Ok();
+
         }
 
         /// <summary>
@@ -115,7 +117,7 @@ namespace UserIdentity.Api.Controllers
             return Ok();
         }
 
-        
+
 
         /// <summary>
         /// Reponsavel pela geração do token
@@ -159,27 +161,48 @@ namespace UserIdentity.Api.Controllers
         }
 
         /// <summary>
-        ///
+        /// confirmação de e-mail
         /// </summary>
         /// <param name="userId"></param>
         /// <param name="code"></param>
         /// <returns></returns>
         internal async Task<IActionResult> ConfirmEmail(Guid userId, string code)
         {
-            if (userId != null && code != null)
-            {
-                var user = await _userManager.FindByIdAsync(userId.ToString());
 
-                if (user != null)
-                {
-                    var result = await _userManager.ConfirmEmailAsync(user, code);
+            if (userId == null || string.IsNullOrEmpty(code))
+                return BadRequest();
 
-                    if (result.Succeeded)
-                    {
-                        return Ok();
-                    }
-                }
-            }
+            var user = await _userManager.FindByIdAsync(userId.ToString());
+            if (user == null)
+                return BadRequest();
+
+            var result = await _userManager.ConfirmEmailAsync(user, code);
+            if (!result.Succeeded)
+                return BadRequest();
+
+            return Ok();
+        }
+
+
+        /// <summary>
+        /// confirmação de e-mail
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="code"></param>
+        /// <returns></returns>
+        internal async Task<IActionResult> ResetPassword(Guid userId, string code)
+        {
+
+            if (userId == null || string.IsNullOrEmpty(code))
+                return BadRequest();
+
+            var user = await _userManager.FindByIdAsync(userId.ToString());
+            if (user == null)
+                return BadRequest();
+
+            var result = await _userManager.ConfirmEmailAsync(user, code);
+            if (!result.Succeeded)
+                return BadRequest();
 
             return Ok();
         }

@@ -5,19 +5,11 @@
     /// </summary>
     public static class CacheKeys
     {
-        private static string totalNumberOfUsers = "total_number_of_users";
+        private static readonly string totalNumberOfUsers = "total_number_of_users";
 
         /// <summary>
-        /// Property Total numer of Users
+        /// TotalNumberOfUsers property
         /// </summary>
-        public static string TotalNumberOfUsers {
-            get {
-                return totalNumberOfUsers;
-            }
-            set {
-
-                totalNumberOfUsers = value;
-            }
-        }
+        public static string TotalNumberOfUsers => totalNumberOfUsers;
     }
 }

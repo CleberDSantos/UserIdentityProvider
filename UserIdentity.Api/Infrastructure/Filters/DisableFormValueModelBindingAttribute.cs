@@ -28,9 +28,13 @@ namespace UserIdentity.WebUI.Infrastructure.Filters
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="context"></param>
         public void OnResourceExecuted(ResourceExecutedContext context) {
 
-            throw new NotImplementedException();
+            throw new NotSupportedException();
 
         }
     }

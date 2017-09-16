@@ -32,8 +32,6 @@ namespace UserIdentity.Services.Concrete
 
             using (var smtpClient = new SmtpClient())
             {
-                //smtpClient.LocalDomain = _smtpSettings.LocalDomain;
-
                 smtpClient.AuthenticationMechanisms.Remove("XOAUTH2");
 
                 await smtpClient.ConnectAsync(_smtpSettings.Host, _smtpSettings.Port).ConfigureAwait(false);

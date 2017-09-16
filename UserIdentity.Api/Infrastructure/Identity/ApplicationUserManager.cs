@@ -15,6 +15,6 @@ namespace UserIdentity.WebUI.Infrastructure.Identity
             ILookupNormalizer keyNormalizer, IdentityErrorDescriber errors, IServiceProvider services, ILogger<UserManager<ApplicationUser>> logger)
             : base(store, optionsAccessor, passwordHasher, userValidators, passwordValidators, keyNormalizer, errors, services, logger)
         {
-        }
+        } //NOSONAR
     }
 }
