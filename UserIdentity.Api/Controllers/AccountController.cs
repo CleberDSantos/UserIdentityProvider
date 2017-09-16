@@ -172,7 +172,7 @@ namespace UserIdentity.Api.Controllers
             if (string.IsNullOrEmpty(code))
                 return BadRequest();
 
-            if (userId == null)
+            if (string.IsNullOrEmpty(userId.ToString()))
                 return BadRequest();
 
             var user = await _userManager.FindByIdAsync(userId.ToString());
