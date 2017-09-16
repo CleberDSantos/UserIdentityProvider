@@ -169,7 +169,10 @@ namespace UserIdentity.Api.Controllers
         internal async Task<IActionResult> ConfirmEmail(Guid userId, string code)
         {
 
-            if (userId == null || string.IsNullOrEmpty(code))
+            if (string.IsNullOrEmpty(code))
+                return BadRequest();
+
+            if (userId == null)
                 return BadRequest();
 
             var user = await _userManager.FindByIdAsync(userId.ToString());
