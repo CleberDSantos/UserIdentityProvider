@@ -196,7 +196,7 @@ namespace UserIdentity.Api.Controllers
         internal async Task<IActionResult> ResetPassword(Guid userId, string code)
         {
 
-            if (userId == null || string.IsNullOrEmpty(code))
+            if (string.IsNullOrEmpty(userId.ToString()) || string.IsNullOrEmpty(code))
                 return BadRequest();
 
             var user = await _userManager.FindByIdAsync(userId.ToString());
