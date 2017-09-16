@@ -51,5 +51,10 @@ namespace UserIdentity.Services.Concrete
             Dispose(true);
             GC.SuppressFinalize(this);
         }
+
+        ~DatabaseConnectionService() {
+
+            Dispose(false);
+        }
     }
 }

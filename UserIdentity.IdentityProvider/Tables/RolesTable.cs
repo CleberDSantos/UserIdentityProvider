@@ -108,11 +108,20 @@ namespace UserIdentity.IdentityProvider.Tables
 
         public void Dispose()
         {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+
+        protected void Dispose(bool disposing)
+        {
+            if (!disposing)
+                return;
+
             if (_sqlConnection == null)
             {
                 return;
             }
-
             _sqlConnection.Dispose();
             _sqlConnection = null;
         }

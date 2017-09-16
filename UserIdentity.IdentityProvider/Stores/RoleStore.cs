@@ -146,9 +146,25 @@ namespace UserIdentity.IdentityProvider.Stores
             return _rolesTable.FindByNameAsync(normalizedRoleName);
         }
 
+        protected void Dispose(bool disposing) {
+
+            if (!disposing)
+                return;
+
+            _rolesTable.Dispose();
+
+        }
+
+
         public void Dispose()
         {
-            _rolesTable.Dispose();
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        ~RoleStore() {
+
+            Dispose(false);
         }
     }
 }
