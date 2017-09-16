@@ -112,8 +112,7 @@ namespace UserIdentity.IdentityProvider.Tables
             GC.SuppressFinalize(this);
         }
 
-
-        protected void Dispose(bool disposing)
+        private void Dispose(bool disposing)
         {
             if (!disposing)
                 return;

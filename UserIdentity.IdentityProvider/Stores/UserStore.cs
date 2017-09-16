@@ -156,7 +156,7 @@ namespace UserIdentity.IdentityProvider.Stores
             return _usersTable.UpdateAsync(user, cancellationToken);
         }
 
-        protected void Dispose(bool disposing) {
+        private void Dispose(bool disposing) {
             if (!disposing)
                 return;
 
@@ -170,11 +170,7 @@ namespace UserIdentity.IdentityProvider.Stores
 
             GC.SuppressFinalize(this);
         }
-
-        ~UserStore() {
-
-            Dispose(false);
-        }
+       
         #endregion IUserStore<ApplicationUser> implementation.
 
         #region IUserEmailStore<ApplicationUser> implementation.

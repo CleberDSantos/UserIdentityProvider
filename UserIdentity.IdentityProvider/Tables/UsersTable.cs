@@ -160,7 +160,7 @@ namespace UserIdentity.IdentityProvider.Tables
             return _sqlConnection.QueryAsync<ApplicationUser>(command);
         }
 
-        protected void Dispose(bool disposing)
+        private void Dispose(bool disposing)
         {
             if (!disposing)
                 return;
@@ -174,11 +174,6 @@ namespace UserIdentity.IdentityProvider.Tables
         {
             Dispose(true);
             GC.SuppressFinalize(this);
-        }
-
-        ~UsersTable()
-        {
-            Dispose(false);
         }
 
     }
