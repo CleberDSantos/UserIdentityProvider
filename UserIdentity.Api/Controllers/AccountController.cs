@@ -117,8 +117,6 @@ namespace UserIdentity.Api.Controllers
             return Ok();
         }
 
-
-
         /// <summary>
         /// Reponsavel pela geração do token
         /// </summary>
@@ -206,6 +204,33 @@ namespace UserIdentity.Api.Controllers
             var result = await _userManager.ConfirmEmailAsync(user, code);
             if (!result.Succeeded)
                 return BadRequest();
+
+            return Ok();
+        }
+
+        /// <summary>
+        ///  Metodo de esquecimento de senha
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [Route("forgotpassword")]
+        public async Task<IActionResult> ForgotPassword([FromBody] LoginViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.FindByEmailAsync(model.Email);
+                if (user == null || !(await _userManager.IsEmailConfirmedAsync(user)))
+                {
+                    return BadRequest();
+                }
+
+                var code = await _userManager.GeneratePasswordResetTokenAsync(user);
+                var callbackUrl = Url.ResetPasswordCallbackLink(user.Id.ToString(), code, Request.Scheme);
+
+                await _emailSender.SendEmailAsync(model.Email, "Reset Password",
+                   $"Please reset your password by clicking here: <a href='{callbackUrl}'>link</a>");
+            }
 
             return Ok();
         }
