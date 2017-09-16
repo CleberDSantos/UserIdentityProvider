@@ -14,7 +14,7 @@ namespace UserIdentity.IdentityProvider.Stores
 {
     public class UserStore : IQueryableUserStore<ApplicationUser>, IUserEmailStore<ApplicationUser>, IUserLoginStore<ApplicationUser>, IUserPasswordStore<ApplicationUser>,
         IUserPhoneNumberStore<ApplicationUser>, IUserTwoFactorStore<ApplicationUser>, IUserSecurityStampStore<ApplicationUser>,
-        IUserClaimStore<ApplicationUser>, IUserLockoutStore<ApplicationUser>, IUserRoleStore<ApplicationUser>, IDisposable
+        IUserClaimStore<ApplicationUser>, IUserLockoutStore<ApplicationUser>, IUserRoleStore<ApplicationUser>
     {
         private readonly UsersTable _usersTable;
         private readonly UsersRolesTable _usersRolesTable;

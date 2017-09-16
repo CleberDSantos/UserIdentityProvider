@@ -1,6 +1,7 @@
 ﻿using UserIdentity.Services.Abstract;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
+using System;
 
 namespace UserIdentity.Services.Concrete
 {
@@ -8,6 +9,7 @@ namespace UserIdentity.Services.Concrete
     {
         private SqlConnection _sqlConnection;
         private readonly string _connectionString;
+        private bool disposed = false;
 
         public DatabaseConnectionService(string connectionString)
         {
@@ -30,8 +32,11 @@ namespace UserIdentity.Services.Concrete
             return _sqlConnection;
         }
 
-        public void Dispose()
-        {
+        protected virtual void Dispose(bool disposing) {
+
+            if (!disposing)
+                return;
+
             if (_sqlConnection == null)
             {
                 return;
@@ -39,6 +44,13 @@ namespace UserIdentity.Services.Concrete
 
             _sqlConnection.Dispose();
             _sqlConnection = null;
+
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
     }
 }

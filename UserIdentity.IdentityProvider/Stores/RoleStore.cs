@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace UserIdentity.IdentityProvider.Stores
 {
-    public class RoleStore : IQueryableRoleStore<ApplicationRole>, IDisposable
+    public class RoleStore : IQueryableRoleStore<ApplicationRole>
     {
         private readonly RolesTable _rolesTable;
 
