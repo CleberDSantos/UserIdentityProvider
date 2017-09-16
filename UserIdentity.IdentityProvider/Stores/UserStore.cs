@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace UserIdentity.IdentityProvider.Stores
 {
-    public class UserStore : IQueryableUserStore<ApplicationUser>, IUserEmailStore<ApplicationUser>, IUserLoginStore<ApplicationUser>, IUserPasswordStore<ApplicationUser>,
+    public sealed class UserStore : IQueryableUserStore<ApplicationUser>, IUserEmailStore<ApplicationUser>, IUserLoginStore<ApplicationUser>, IUserPasswordStore<ApplicationUser>,
         IUserPhoneNumberStore<ApplicationUser>, IUserTwoFactorStore<ApplicationUser>, IUserSecurityStampStore<ApplicationUser>,
         IUserClaimStore<ApplicationUser>, IUserLockoutStore<ApplicationUser>, IUserRoleStore<ApplicationUser>
     {
@@ -156,7 +156,7 @@ namespace UserIdentity.IdentityProvider.Stores
             return _usersTable.UpdateAsync(user, cancellationToken);
         }
 
-        private void Dispose(bool disposing) {
+        protected void Dispose(bool disposing) {
             if (!disposing)
                 return;
 
@@ -167,7 +167,6 @@ namespace UserIdentity.IdentityProvider.Stores
         public void Dispose()
         {
             Dispose(true);
-
             GC.SuppressFinalize(this);
         }
        
