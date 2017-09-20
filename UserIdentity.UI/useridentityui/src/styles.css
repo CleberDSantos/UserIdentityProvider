@@ -1,1 +1,7 @@
-/* You can add global styles to this file, and also import other style files */
+.page-login {
+    margin-top: 15%;
+  }
+  
+  body {
+    background-color: #ECF0F1 !important;
+  }

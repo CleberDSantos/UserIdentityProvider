@@ -422,3 +422,4 @@ typings/
 # End of https://www.gitignore.io/api/aspnetcore,visualstudio
 *.sql
 /.sonarqube
+/UserIdentity.UI/useridentityui/semantic
