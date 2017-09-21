@@ -423,3 +423,4 @@ typings/
 *.sql
 /.sonarqube
 /UserIdentity.UI/useridentityui/semantic
+*.spec.ts
