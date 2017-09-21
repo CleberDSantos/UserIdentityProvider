@@ -16,5 +16,5 @@
       "dom"
     ]
   },
-  "exclude": [ "**/*.spec.ts" ]
+  "exclude": [ "**/*.spec.ts", "node_modules" ]
 }
